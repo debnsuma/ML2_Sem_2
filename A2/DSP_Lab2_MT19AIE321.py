@@ -254,6 +254,8 @@ def mergeSort(arr):
         mergeSort(right)
         merge(left, right, arr)
 
+    return arr
+
 
 def main():
     # Reading the input from STDIN
@@ -279,13 +281,23 @@ def main():
     LL1 = q2(q2s, LL)
 
     first_list = LL1.display(save=True)
+
     if LL2 is not None:
         second_list = LL2.display(save=True)
     else:
         second_list = []
 
-    final_list = first_list + second_list
+    first_list_sorted = mergeSort(first_list)
+
+    if second_list != []:
+        second_list_sorted = mergeSort(second_list)
+    else:
+        second_list_sorted = []
+
+    final_list = first_list_sorted + second_list_sorted
+
     mergeSort(final_list)
+
     print("*********** Final Merged List ************")
     for i in final_list:
         print(i, end=" ")
