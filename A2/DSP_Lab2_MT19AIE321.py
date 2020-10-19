@@ -8,6 +8,7 @@
 import sys
 import fileinput
 
+
 class Node:
     def __init__(self, key, next=None):
         self.key = key
@@ -190,9 +191,9 @@ class myLinkedList:
 
 
 def q1(q1_que):
-
     LL = myLinkedList()
     LL2 = None
+
     for q in q1_que:
         task, key = q.split()
 
@@ -231,6 +232,7 @@ def q2(q2_que, LL=None):
 
     return LL
 
+
 def merge(left, right, arr):
     i, j = 0, 0
     while i + j < len(arr):
@@ -252,8 +254,8 @@ def mergeSort(arr):
         mergeSort(right)
         merge(left, right, arr)
 
-def main():
 
+def main():
     # Reading the input from STDIN
     data = []
     for line in fileinput.input():
@@ -277,7 +279,10 @@ def main():
     LL1 = q2(q2s, LL)
 
     first_list = LL1.display(save=True)
-    second_list = LL2.display(save=True)
+    if LL2 is not None:
+        second_list = LL2.display(save=True)
+    else:
+        second_list = []
 
     final_list = first_list + second_list
     mergeSort(final_list)
@@ -285,5 +290,7 @@ def main():
     for i in final_list:
         print(i, end=" ")
     print("\n********** End of program ****************")
+
+
 if __name__ == "__main__":
     main()
