@@ -2,19 +2,19 @@
 # Email : debnath.1@iitj.ac.in
 # Roll No : MT19AIE321
 # M.Tech-AI(2020)
-# Date : 19st Oct 2020
+# Date : 19th Oct 2020
 # DSP Lab 2
 
 import sys
 import fileinput
 
-
+# Defining a class which will create Nodes
 class Node:
     def __init__(self, key, next=None):
         self.key = key
         self.next = next
 
-
+# Defining a class which will create our linked list and also defining other methods, like insert, delete, etc.
 class myLinkedList:
 
     # Starting point of the LinkedList
@@ -22,6 +22,7 @@ class myLinkedList:
         self.head = None
         self.tail = None
 
+    # Method to insert an element(key) at the beginning of the LinkedList
     def insertBegining(self, key):
 
         newNode = Node(key)
@@ -32,6 +33,7 @@ class myLinkedList:
             newNode.next = self.head
             self.head = newNode
 
+    # Method to insert an element(key) at the end of the LinkedLis
     def insertEnd(self, key):
 
         newNode = Node(key)
@@ -48,6 +50,7 @@ class myLinkedList:
             self.head = newNode
             self.tail = newNode
 
+    # Method to insert an element(key) at any place in the LinkedList
     def insertInplace(self, key, place):
 
         total_element = self.length()
@@ -83,6 +86,7 @@ class myLinkedList:
             newNode.next = self.head
             self.head = newNode
 
+    # Function to print elements in the linked list
     def display(self, save=False):
 
         current = self.head
@@ -96,6 +100,7 @@ class myLinkedList:
 
         return result
 
+    # Function to find the length of the linked list
     def length(self):
         total = 0
         current = self.head
@@ -108,6 +113,14 @@ class myLinkedList:
 
         return total + 1
 
+    def set_tail(self):
+        current = self.head
+        while current.next != None:
+            current = current.next
+        self.tail = current
+
+
+    # Function to delete an element from the linked list
     def delete(self, element, LL2):
 
         total_element = self.length()
@@ -157,6 +170,7 @@ class myLinkedList:
 
         return LL2
 
+    # Method to rotate the linked list to RIGHT
     def rotate_right(self):
 
         current_tail = self.tail
@@ -171,6 +185,7 @@ class myLinkedList:
         self.tail = current
         self.tail.next = None
 
+    # Method to rotate the linked list to LEFT
     def rotate_left(self):
 
         old_head = self.head
@@ -196,16 +211,14 @@ def q1(q1_que):
 
     for q in q1_que:
         task, key = q.split()
-
         if int(task) == 1:
             LL.insertEnd(int(key))
             LL.display()
-            print("\n")
         elif int(task) == 2:
             LL2 = LL.delete(int(key), LL2=LL2)
             LL.display()
-            print("\n")
 
+        print("\n")
     return LL, LL2
 
 
@@ -218,43 +231,60 @@ def q2(q2_que, LL=None):
             for i in range(shift_by):
                 LL.rotate_left()
             LL.display()
-            print("\n")
 
         if q > 0:
             for i in range(shift_by):
                 LL.rotate_right()
             LL.display()
-            print("\n")
 
         if q == 0:
             LL.display()
-            print("\n")
 
+        print("\n")
     return LL
 
+# Function which will merge two linked lists
+def merge(l1, l2):
+    temp = None
+    if l1 is None:
+        return l2
+    if l2 is None:
+        return l1
+    if l1.key <= l2.key:
+        temp = l1
+        temp.next = merge(l1.next, l2)
+    else:
+        temp = l2
+        temp.next = merge(l1, l2.next)
+    return temp
 
-def merge(left, right, arr):
-    i, j = 0, 0
-    while i + j < len(arr):
-        if j == len(right) or (i < len(left) and left[i] < right[j]):
-            arr[i + j] = left[i]
-            i += 1
-        else:
-            arr[i + j] = right[j]
-            j += 1
+# Function which will sort the linked list using mergeSort
+def mergeSort(head):
+    if head is None or head.next is None:
+        return head
+    l1, l2 = divideLists(head)
 
+    l1 = mergeSort(l1)
+    l2 = mergeSort(l2)
+    head = merge(l1, l2)
 
-def mergeSort(arr):
-    if len(arr) > 1:
-        mid = len(arr) // 2
-        left = arr[:mid]
-        right = arr[mid:]
+    return head
 
-        mergeSort(left)
-        mergeSort(right)
-        merge(left, right, arr)
+# Defining function which will divide a linked list into two equal linked lists
+def divideLists(head):
+    slow = head                          # slow is a pointer to reach the mid of linked list
+    fast = head.next                     # fast is a pointer to reach the end of the linked list
+    # if fast:
+    #     fast = fast.next
+    while fast:
+        fast = fast.next            # fast is incremented twice while slow is incremented once per loop
+        if fast:
+            fast = fast.next
+            slow = slow.next
+    mid = slow.next
+    slow.next = None
 
-    return arr
+    return head, mid
 
 
 def main():
@@ -264,45 +294,34 @@ def main():
         data.append(line)
         data = [d.rstrip() for d in data]
 
-    # Featching Q1 queries
+    # Fetching Q1 queries
     query1_num = int(data[0])
     q1s = []
     for i in range(1, query1_num + 1):
         q1s.append(data[i])
 
-    # Featching Q2 queries
+    # Fetching Q2 queries
     query2_num = int(data[query1_num + 1])
     q2s = []
     for i in range(query1_num + query2_num - 1, len(data)):
         q2s.append(data[i])
 
     LL, LL2 = q1(q1s)
-
     LL1 = q2(q2s, LL)
+    # Sorting LL1
+    LL1.head = mergeSort(LL1.head)
+    LL1.set_tail()
 
-    first_list = LL1.display(save=True)
+    # Sorting LL2
+    if LL2:
+        LL2.head = mergeSort(LL2.head)
+        # Merging LL1 and LL2 in to LL1
+        LL1.tail.next = LL2.head
 
-    if LL2 is not None:
-        second_list = LL2.display(save=True)
-    else:
-        second_list = []
-
-    first_list_sorted = mergeSort(first_list)
-
-    if second_list != []:
-        second_list_sorted = mergeSort(second_list)
-    else:
-        second_list_sorted = []
-
-    final_list = first_list_sorted + second_list_sorted
-
-    mergeSort(final_list)
-
-    print("*********** Final Merged List ************")
-    for i in final_list:
-        print(i, end=" ")
-    print("\n********** End of program ****************")
-
+    # Sorting the final LinkedList
+    LL1.head = mergeSort(LL1.head)
+    LL1.display()
+    print("\n")
 
 if __name__ == "__main__":
     main()
