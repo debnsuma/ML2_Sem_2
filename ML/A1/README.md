@@ -43,24 +43,4 @@ I also tried to make use of less parameters within less EPOCH(15)
 - BN added some more no. of parameters 
 - The test accuracy was not changing much
 
-[Task 2 - Code](https://github.com/EVA5-Stars/S5/blob/master/01_EVA5_Session5_GAP_Step_1.ipynb)
-
-### Version 2 (with Batch-Norm)
--------------------------------
-
-**Target** 
-
-Add Batch-norm to increase model efficiency.
-
-**Results** 
-
-- Parameters: 7,612
-- Best Train Accuracy: 99.18%
-- Best Test Accuracy: 99.13%
-
-**Analysis** 
-
-- No. of model parameters got increased a bit, which was expected beacuse of Batch Normalization
-- Overall model performance got increased a bit, but we again started to see overfit and its not able to reach 99.4% accuracy
-
-[Version 2 - Code](https://github.com/debnsuma/ML2_Sem_2/blob/master/ML/A1/ML-Assignment-1-Task1.ipynb)
+[Task 2 - Code](https://github.com/debnsuma/ML2_Sem_2/blob/master/ML/A1/ML-Assignment-1-Task2.ipynb)
